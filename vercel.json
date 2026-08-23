@@ -4,7 +4,6 @@
   "outputDirectory": "public",
   "functions": {
     "api/*.js": {
-      "memory": 1024,
       "maxDuration": 60
     }
   },
@@ -25,6 +24,13 @@
           "value": "camera=(self), microphone=(), geolocation=()"
         }
       ]
+    }
+  ],
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
     }
   ]
 }
