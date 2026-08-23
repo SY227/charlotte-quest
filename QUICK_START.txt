@@ -1,0 +1,19 @@
+CHARLOTTE'S QUEST — QUICK START
+
+1. Open Terminal.
+2. Go to this folder:
+
+   cd /path/to/charlotte-quest
+
+3. Add the Gemini key:
+
+   bash setup-key.sh
+
+4. Start:
+
+   npm start
+
+5. On the iPad, open the "iPad:" address printed in Terminal.
+
+The built-in Multiplication & Array Adventure works even without the key.
+The key is required only to analyze new homework photos with Gemini.
