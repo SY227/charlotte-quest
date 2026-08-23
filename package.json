@@ -1,10 +1,11 @@
 {
   "name": "charlotte-quest",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "type": "module",
   "description": "A private, iPad-friendly Grade 3 practice app for Charlotte, powered by Gemini 3.6 Flash.",
   "scripts": {
+    "build": "node build.mjs",
     "start": "node server.mjs",
     "dev": "node server.mjs",
     "check": "node scripts-check.mjs"
