@@ -1,132 +1,138 @@
 export const CHARLOTTE_SAMPLE_PACK = {
-  id: "charlotte-grade3-multiply-divide-blueprint-2026-08-30",
+  id: "charlotte-grade3-word-comprehension-2026-08-30",
   createdAt: "2026-08-30T00:00:00.000Z",
   source: "built-in",
   subject: "Math",
-  title: "Multiply & Divide Adventure",
-  shortTitle: "Multiply & Divide",
+  title: "Math Story Adventure",
+  shortTitle: "Math Stories",
   gradeFit: "Grade 3",
   summaryForParent:
-    "Charlotte's newer homework connects multiplication and division. The main skill is finding what is missing: the total, the number of groups, or how many are in each group.",
+    "Charlotte's homework now mixes multiplication and division inside word problems. Practice should focus on understanding what each number means, what the question asks, and which operation fits.",
   childIntro:
-    "Find what is missing. Then multiply or divide.",
+    "Read the story. Find what it asks. Then do the math.",
   strengths: [
     {
-      title: "Builds equations",
-      detail: "She turns many stories into the right math."
+      title: "Finds many answers",
+      detail: "She solves many multiplication and division facts correctly."
     },
     {
-      title: "Uses equal groups",
-      detail: "She understands many groups and rows."
+      title: "Writes equations",
+      detail: "She often turns a story into an equation."
     },
     {
-      title: "Knows many facts",
-      detail: "She works well with many 2s and 5s facts."
+      title: "Uses answer labels",
+      detail: "She often writes what the answer counts."
     }
   ],
   practiceNeeds: [
     {
+      conceptId: "understand-question",
+      title: "What is it asking?",
+      observation: "The important first step is knowing what must be found.",
+      practicalApproach: "Read the last question. Say what you need to find."
+    },
+    {
+      conceptId: "number-meaning",
+      title: "What do numbers mean?",
+      observation: "Each number has a job in the story.",
+      practicalApproach: "Say what each number stands for before doing math."
+    },
+    {
       conceptId: "choose-operation",
       title: "Multiply or divide?",
       observation: "Similar stories can need different operations.",
-      practicalApproach: "Find what is missing before choosing the operation."
+      practicalApproach: "Find what is missing. Then choose multiply or divide."
     },
     {
-      conceptId: "divide-find-each",
+      conceptId: "find-each",
       title: "Find how many in each",
-      observation: "The total and number of groups are known.",
+      observation: "Sometimes the total and number of groups are given.",
       practicalApproach: "Total ÷ groups = how many in each."
     },
     {
-      conceptId: "divide-find-groups",
+      conceptId: "find-groups",
       title: "Find how many groups",
-      observation: "The total and group size are known.",
-      practicalApproach: "Total ÷ how many in each = groups."
-    },
-    {
-      conceptId: "fact-family",
-      title: "Use related facts",
-      observation: "Multiplication and division describe the same groups.",
-      practicalApproach: "Use multiplication to check a division answer."
+      observation: "Sometimes the total and group size are given.",
+      practicalApproach: "Total ÷ how many in each = number of groups."
     }
   ],
   reusableStrategy: [
-    "Find what is missing.",
-    "Need the total? Multiply.",
-    "Have the total? Divide.",
-    "Check with the other operation."
+    "Read the whole story.",
+    "Find what it asks.",
+    "Say what each number means.",
+    "Choose the math and solve."
   ],
   concepts: [
+    {
+      id: "understand-question",
+      name: "Understand the question",
+      childFriendlyName: "What do I find?",
+      description: "Know what the story asks for.",
+      icon: "🔎",
+      confidence: 0.99,
+      selectedByDefault: true
+    },
+    {
+      id: "number-meaning",
+      name: "Understand the numbers",
+      childFriendlyName: "What do numbers mean?",
+      description: "Know what each number means in the story.",
+      icon: "🔢",
+      confidence: 0.99,
+      selectedByDefault: true
+    },
     {
       id: "choose-operation",
       name: "Choose the operation",
       childFriendlyName: "Multiply or divide?",
-      description: "Find what is missing first.",
+      description: "Choose the math after understanding the story.",
       icon: "🧭",
       confidence: 0.99,
       selectedByDefault: true
     },
     {
-      id: "equal-groups",
-      name: "Multiplication equal groups",
-      childFriendlyName: "Find the total",
-      description: "Groups × in each = total.",
-      icon: "✨",
+      id: "find-total",
+      name: "Find the total",
+      childFriendlyName: "Find how many in all",
+      description: "Groups × how many in each = total.",
+      icon: "⭐",
       confidence: 0.99,
       selectedByDefault: true
     },
     {
-      id: "divide-find-each",
-      name: "Division find each",
+      id: "find-each",
+      name: "Find how many in each",
       childFriendlyName: "How many in each?",
-      description: "Total ÷ groups = in each.",
+      description: "Total ÷ groups = how many in each.",
       icon: "🍎",
       confidence: 0.99,
       selectedByDefault: true
     },
     {
-      id: "divide-find-groups",
-      name: "Division find groups",
+      id: "find-groups",
+      name: "Find number of groups",
       childFriendlyName: "How many groups?",
-      description: "Total ÷ in each = groups.",
-      icon: "🧺",
+      description: "Total ÷ how many in each = groups.",
+      icon: "📦",
       confidence: 0.99,
       selectedByDefault: true
     },
     {
-      id: "fact-family",
-      name: "Multiplication division facts",
-      childFriendlyName: "Facts that work together",
-      description: "Multiply and divide using the same numbers.",
-      icon: "🔁",
+      id: "equation-from-story",
+      name: "Story to equation",
+      childFriendlyName: "Pick the equation",
+      description: "Choose the equation that matches the story.",
+      icon: "✏️",
       confidence: 0.99,
-      selectedByDefault: true
-    },
-    {
-      id: "arrays",
-      name: "Arrays and unknowns",
-      childFriendlyName: "Rows and arrays",
-      description: "Use rows to multiply or divide.",
-      icon: "🔲",
-      confidence: 0.98,
-      selectedByDefault: true
-    },
-    {
-      id: "facts-2-5-10",
-      name: "Fluency with 2s 5s and 10s",
-      childFriendlyName: "2s, 5s, and 10s",
-      description: "Build fast and accurate number facts.",
-      icon: "⚡",
-      confidence: 0.97,
       selectedByDefault: true
     },
     {
       id: "answer-labels",
       name: "Answer labels",
-      childFriendlyName: "What did you count?",
+      childFriendlyName: "What did I count?",
       description: "Answer with the thing the question asks for.",
       icon: "🏷️",
-      confidence: 0.96,
+      confidence: 0.98,
       selectedByDefault: true
     }
   ],
@@ -134,6 +140,10 @@ export const CHARLOTTE_SAMPLE_PACK = {
     {
       term: "total",
       meaning: "How many there are in all."
+    },
+    {
+      term: "each",
+      meaning: "How many are in one group."
     },
     {
       term: "equal groups",
@@ -150,84 +160,88 @@ export const CHARLOTTE_SAMPLE_PACK = {
     {
       term: "pair",
       meaning: "A group of 2."
-    },
-    {
-      term: "row",
-      meaning: "A line that goes across."
     }
   ],
   uncertainNotes: [],
   recommendedQuestionMix: [
     {
+      conceptId: "understand-question",
+      weight: 18
+    },
+    {
+      conceptId: "number-meaning",
+      weight: 14
+    },
+    {
       conceptId: "choose-operation",
-      weight: 22
-    },
-    {
-      conceptId: "divide-find-each",
       weight: 18
     },
     {
-      conceptId: "divide-find-groups",
-      weight: 18
-    },
-    {
-      conceptId: "equal-groups",
-      weight: 15
-    },
-    {
-      conceptId: "fact-family",
+      conceptId: "find-total",
       weight: 12
     },
     {
-      conceptId: "arrays",
-      weight: 7
+      conceptId: "find-each",
+      weight: 12
     },
     {
-      conceptId: "facts-2-5-10",
-      weight: 5
+      conceptId: "find-groups",
+      weight: 12
+    },
+    {
+      conceptId: "equation-from-story",
+      weight: 10
     },
     {
       conceptId: "answer-labels",
-      weight: 3
+      weight: 4
     }
   ],
   generationGuidance: {
     problemStructures: [
-      "Groups and how many in each are known. Find the total with multiplication.",
-      "The total and number of groups are known. Find how many are in each group with division.",
-      "The total and how many are in each group are known. Find the number of groups with division.",
-      "Decide whether multiplication or division fits before calculating.",
-      "Connect one multiplication fact to related division facts.",
-      "Use arrays where the total, rows, or number in each row may be unknown.",
-      "Sometimes use multiplication first and then compare two amounts."
+      "Read a short story and identify what the question asks for.",
+      "Identify what a number represents in the story.",
+      "Decide whether multiplication or division fits the situation.",
+      "Groups and how many in each are known. Find the total.",
+      "The total and number of groups are known. Find how many are in each.",
+      "The total and how many are in each are known. Find the number of groups.",
+      "Choose the equation that correctly represents the story.",
+      "Solve a word problem and use the correct answer label.",
+      "Compare two simple amounts after finding one amount first."
     ],
     factEmphasis: [
       "Use 2s and 5s often.",
       "Use 10s regularly.",
-      "Mix in other Grade 3 multiplication facts.",
-      "Use only whole-number division with no remainders."
+      "Mix other Grade 3 multiplication facts.",
+      "Use only division with whole-number answers.",
+      "Math facts support comprehension rather than being the main task."
     ],
     contextIdeas: [
-      "chairs and tables",
+      "friends sharing objects",
       "school supplies",
       "books and shelves",
+      "chairs and tables",
       "fruit and baskets",
-      "friends sharing objects",
-      "rows of plants",
+      "flowers and vases",
+      "photos in rows",
       "pairs of objects",
       "coins and cents",
       "tickets",
-      "photos",
-      "friendly quest objects",
-      "stars and crystals"
+      "pages in letters",
+      "items on shelves",
+      "friendly adventure objects"
     ],
     avoidPatterns: [
       "Never copy wording from the source homework.",
-      "Never reuse the source homework numbers as a set.",
-      "Do not make every question look the same.",
-      "Do not teach keyword tricks.",
-      "Do not ask only calculation questions.",
-      "Do not introduce remainders yet."
+      "Never reuse the source homework as fixed questions.",
+      "Never create picture-counting questions.",
+      "Never create array graphics.",
+      "Never create groups-of-dots graphics.",
+      "Never create visual math diagrams.",
+      "Never create bare arithmetic fact questions.",
+      "Never teach keyword tricks.",
+      "Never introduce division with remainders.",
+      "Do not make every question ask for the final answer."
     ]
   }
 };

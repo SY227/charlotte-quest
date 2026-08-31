@@ -1,4 +1,4 @@
-const PACK_KEY = "charlotteQuest.learningPack.v1";
+const PACK_KEY = "charlotteQuest.learningPack.wordComprehension.v2";
 const HISTORY_KEY = "charlotteQuest.history.v1";
 const SETTINGS_KEY = "charlotteQuest.settings.v1";
 

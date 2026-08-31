@@ -16,17 +16,12 @@ const SUPPORTED_TYPES = new Set([
   "multiple_choice",
   "number_input",
   "equation_choice",
-  "array_total",
-  "array_dimension",
-  "groups_total",
   "unit_choice",
   "true_false"
 ]);
 
 const SUPPORTED_VISUALS = new Set([
-  "none",
-  "array",
-  "groups"
+  "none"
 ]);
 
 export function normalizeAnswer(value) {
@@ -125,40 +120,15 @@ export function validateAndNormalizeQuestion(
       )
         ? question.visual.kind
         : "none",
-      rows: clampInteger(
-        question?.visual?.rows,
-        0,
-        12
-      ),
-      columns: clampInteger(
-        question?.visual?.columns,
-        0,
-        12
-      ),
-      groups: clampInteger(
-        question?.visual?.groups,
-        0,
-        10
-      ),
-      itemsPerGroup: clampInteger(
-        question?.visual?.itemsPerGroup,
-        0,
-        10
-      ),
+      rows: 0,
+      columns: 0,
+      groups: 0,
+      itemsPerGroup: 0,
       itemEmoji: String(
         question?.visual?.itemEmoji || "⭐"
       ).slice(0, 8),
-      highlight: [
-        "none",
-        "rows",
-        "columns",
-        "groups"
-      ].includes(question?.visual?.highlight)
-        ? question.visual.highlight
-        : "none",
-      caption: String(
-        question?.visual?.caption || ""
-      )
+      highlight: "none",
+      caption: ""
     },
     strategy: {
       title: String(

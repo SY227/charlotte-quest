@@ -23,248 +23,197 @@ import {
 } from "./lib/handlers.mjs";
 
 const requiredConcepts = [
+  "understand-question",
+  "number-meaning",
   "choose-operation",
-  "equal-groups",
-  "divide-find-each",
-  "divide-find-groups",
-  "fact-family",
-  "arrays"
+  "find-total",
+  "find-each",
+  "find-groups",
+  "equation-from-story",
+  "answer-labels"
 ];
 
-const conceptIds =
-  new Set(
-    CHARLOTTE_SAMPLE_PACK.concepts.map(
-      (concept) => concept.id
-    )
-  );
+const conceptIds = new Set(
+  CHARLOTTE_SAMPLE_PACK.concepts.map(
+    (concept) => concept.id
+  )
+);
 
-for (
-  const id of
-  requiredConcepts
-) {
+for (const id of requiredConcepts) {
   if (!conceptIds.has(id)) {
     throw new Error(
-      `Missing default concept: ${id}`
+      `Missing word-comprehension concept: ${id}`
     );
   }
 }
 
 if (
-  !CHARLOTTE_SAMPLE_PACK
-    .generationGuidance
-    ?.problemStructures
-    ?.length
-) {
-  throw new Error(
-    "Default concept blueprint is missing generation guidance."
-  );
-}
-
-const multiplyQuestion =
-  validateAndNormalizeQuestion({
-    id: "multiply-check",
-    conceptId: "equal-groups",
-    conceptName: "Find the total",
-    type: "number_input",
-    prompt:
-      "There are 6 bags with 5 apples in each. How many apples are there?",
-    directions:
-      "Find the total.",
-    choices: [],
-    answer: {
-      kind: "number",
-      value: "30",
-      acceptedValues: [
-        "30"
-      ]
-    },
-    visual: {
-      kind: "none",
-      rows: 0,
-      columns: 0,
-      groups: 0,
-      itemsPerGroup: 0,
-      itemEmoji: "🍎",
-      highlight: "none",
-      caption: ""
-    },
-    strategy: {
-      title:
-        "Find the total",
-      steps: [
-        {
-          title:
-            "Find groups",
-          text:
-            "There are 6 groups."
-        },
-        {
-          title:
-            "Find each",
-          text:
-            "There are 5 in each."
-        },
-        {
-          title:
-            "Multiply",
-          text:
-            "6 × 5 = 30."
-        }
-      ],
-      deeperExplanation:
-        "Multiply groups by how many are in each.",
-      transferTip:
-        "Need the total? Multiply."
-    },
-    answerSentence:
-      "30 apples",
-    difficulty: 2,
-    fingerprint:
-      "test:multiply:6:5",
-    validation: {
-      operation:
-        "multiply",
-      factorA: 6,
-      factorB: 5,
-      product: 30,
-      unit: "apples"
-    }
-  });
-
-if (!multiplyQuestion) {
-  throw new Error(
-    "Multiplication validation failed."
-  );
-}
-
-if (
-  !isAnswerCorrect(
-    multiplyQuestion,
-    "30"
+  CHARLOTTE_SAMPLE_PACK.concepts.some(
+    (concept) =>
+      ["arrays", "rows-columns"].includes(concept.id)
   )
 ) {
   throw new Error(
-    "Multiplication answer check failed."
+    "Graphic-focused concepts are still in the default pack."
   );
 }
 
-const divideQuestion =
+const questionSchema =
+  QUESTION_BATCH_SCHEMA
+    .properties
+    .questions
+    .items;
+
+const allowedTypes =
+  questionSchema
+    .properties
+    .type
+    .enum;
+
+for (
+  const forbidden of [
+    "array_total",
+    "array_dimension",
+    "groups_total"
+  ]
+) {
+  if (allowedTypes.includes(forbidden)) {
+    throw new Error(
+      `Graphic question type still allowed: ${forbidden}`
+    );
+  }
+}
+
+const visualKinds =
+  questionSchema
+    .properties
+    .visual
+    .properties
+    .kind
+    .enum;
+
+if (
+  visualKinds.length !== 1 ||
+  visualKinds[0] !== "none"
+) {
+  throw new Error(
+    "Question schema still allows graphic visuals."
+  );
+}
+
+const testQuestion =
   validateAndNormalizeQuestion({
-    id: "divide-check",
-    conceptId:
-      "divide-find-groups",
-    conceptName:
-      "How many groups?",
+    id: "word-test",
+    conceptId: "find-each",
+    conceptName: "How many in each?",
     type: "number_input",
     prompt:
-      "There are 30 apples with 5 in each bag. How many bags are there?",
+      "Mia has 30 pencils. She puts them equally into 5 boxes. How many pencils go in each box?",
     directions:
-      "Find the groups.",
+      "Find what the story asks.",
     choices: [],
     answer: {
       kind: "number",
       value: "6",
-      acceptedValues: [
-        "6"
-      ]
+      acceptedValues: ["6"]
     },
     visual: {
-      kind: "none",
-      rows: 0,
-      columns: 0,
-      groups: 0,
-      itemsPerGroup: 0,
-      itemEmoji: "🍎",
-      highlight: "none",
-      caption: ""
+      kind: "array",
+      rows: 5,
+      columns: 6,
+      groups: 5,
+      itemsPerGroup: 6,
+      itemEmoji: "✏️",
+      highlight: "groups",
+      caption: "This should be removed"
     },
     strategy: {
-      title:
-        "Find the groups",
+      title: "Understand the story",
       steps: [
         {
-          title:
-            "Find total",
-          text:
-            "There are 30 in all."
+          title: "Find the total",
+          text: "There are 30 pencils in all."
         },
         {
-          title:
-            "Find each",
-          text:
-            "There are 5 in each."
+          title: "Find the groups",
+          text: "There are 5 boxes."
         },
         {
-          title:
-            "Divide",
-          text:
-            "30 ÷ 5 = 6."
+          title: "Find what is missing",
+          text: "We need pencils in each box."
+        },
+        {
+          title: "Divide",
+          text: "30 ÷ 5 = 6."
         }
       ],
       deeperExplanation:
-        "Divide the total by how many are in each group.",
+        "The total and number of boxes are known. Divide to find how many are in each.",
       transferTip:
-        "Have the total? Divide."
+        "Ask what is missing before choosing the math."
     },
     answerSentence:
-      "6 bags",
+      "6 pencils in each box",
     difficulty: 2,
     fingerprint:
-      "test:divide:30:5",
+      "word-test:find-each:30:5",
     validation: {
-      operation:
-        "divide",
+      operation: "divide",
       factorA: 30,
       factorB: 5,
       product: 6,
-      unit: "bags"
+      unit: "pencils"
     }
   });
 
-if (!divideQuestion) {
+if (!testQuestion) {
   throw new Error(
-    "Division validation failed."
+    "Word-problem question failed validation."
   );
 }
 
 if (
-  divideQuestion.validation.product !==
-  6
+  testQuestion.visual.kind !== "none" ||
+  testQuestion.visual.rows !== 0 ||
+  testQuestion.visual.columns !== 0 ||
+  testQuestion.visual.groups !== 0 ||
+  testQuestion.visual.itemsPerGroup !== 0 ||
+  testQuestion.visual.highlight !== "none" ||
+  testQuestion.visual.caption !== ""
 ) {
   throw new Error(
-    "Division quotient validation failed."
+    "Graphic content was not stripped from the normalized question."
   );
 }
 
 if (
   !isAnswerCorrect(
-    divideQuestion,
+    testQuestion,
     "6"
   )
 ) {
   throw new Error(
-    "Division answer check failed."
+    "Word-problem answer validation failed."
   );
 }
 
-const operationEnum =
-  QUESTION_BATCH_SCHEMA
-    .properties
-    .questions
-    .items
-    .properties
-    .validation
-    .properties
-    .operation
-    .enum;
-
 if (
-  !operationEnum.includes(
-    "divide"
+  !QUESTION_SYSTEM_PROMPT.includes(
+    "Every scored question MUST be based on a short written story or situation."
   )
 ) {
   throw new Error(
-    "Question schema does not support division."
+    "Gemini prompt does not enforce word-comprehension questions."
+  );
+}
+
+if (
+  !QUESTION_SYSTEM_PROMPT.includes(
+    'visual.kind="none"'
+  )
+) {
+  throw new Error(
+    "Gemini prompt does not explicitly disable visuals."
   );
 }
 
@@ -274,25 +223,9 @@ if (
     .generationGuidance
 ) {
   throw new Error(
-    "Analysis schema is missing generation guidance."
+    "Analysis schema is incomplete."
   );
 }
-
-if (
-  !QUESTION_SYSTEM_PROMPT.includes(
-    "There is no fixed question bank."
-  )
-) {
-  throw new Error(
-    "Gemini prompt does not enforce fresh question generation."
-  );
-}
-
-const appSource =
-  fs.readFileSync(
-    "./js/app.js",
-    "utf8"
-  );
 
 const handlerSource =
   fs.readFileSync(
@@ -301,15 +234,12 @@ const handlerSource =
   );
 
 if (
-  appSource.includes(
-    "generateFallbackQuestions"
-  ) ||
   handlerSource.includes(
     "generateFallbackQuestions"
   )
 ) {
   throw new Error(
-    "A fixed-question fallback still exists."
+    "Fixed-question fallback is present."
   );
 }
 
@@ -322,5 +252,5 @@ if (
 }
 
 console.log(
-  "Checks passed: concept-derived Gemini practice, multiplication, division, and no fixed-question fallback."
+  "Checks passed: Gemini-only Grade 3 word-comprehension practice with no graphic math questions."
 );
