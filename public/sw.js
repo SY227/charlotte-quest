@@ -1,4 +1,4 @@
-const CACHE_NAME = "charlotte-quest-v1";
+const CACHE_NAME = "charlotte-quest-v4-gemini-concept-practice";
 const STATIC_ASSETS = [
   "/",
   "/index.html",

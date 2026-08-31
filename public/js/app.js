@@ -1,6 +1,5 @@
 import { CHARLOTTE_SAMPLE_PACK, cloneSamplePack } from "/shared/sample-pack.js";
 import {
-  generateFallbackQuestions,
   isAnswerCorrect,
   normalizeAnswer
 } from "/shared/question-engine.js";
@@ -28,10 +27,14 @@ import {
 
 const app = document.getElementById("app");
 const settings = loadSettings();
+const savedLearningPack = loadLearningPack();
+const initialPack = savedLearningPack?.source === "uploaded-homework"
+  ? savedLearningPack
+  : cloneSamplePack();
 
 const state = {
   screen: "home",
-  pack: loadLearningPack() || cloneSamplePack(),
+  pack: initialPack,
   selectedConcepts: new Set(),
   uploadImages: [],
   processingImages: false,
@@ -220,7 +223,7 @@ function renderParentSetup() {
           ${configured === false ? `
             <div class="warning-note">
               <span aria-hidden="true">⚙️</span>
-              <div><strong>Gemini key needed for new photos.</strong> The built-in multiplication mission works now, but analyzing new homework requires <code>GEMINI_API_KEY</code> in <code>.env.local</code>.</div>
+              <div><strong>Gemini is needed for practice.</strong> Questions are generated fresh from Charlotte's learning concepts. New homework analysis also uses Gemini.</div>
             </div>
           ` : configured ? `
             <div class="info-note">
@@ -230,7 +233,7 @@ function renderParentSetup() {
           ` : ""}
 
           <div class="panel-footer">
-            <button class="soft-button" type="button" data-action="use-sample-pack">Use Charlotte's current multiplication set</button>
+            <button class="soft-button" type="button" data-action="use-sample-pack">Use Charlotte's current concept set</button>
             <button class="primary-button" type="button" data-action="analyze-images" ${!imageCount || state.processingImages || state.analyzing ? "disabled" : ""}>
               <span aria-hidden="true">${state.analyzing ? "⏳" : "✦"}</span>
               ${state.processingImages ? "Preparing photos…" : state.analyzing ? "Analyzing schoolwork…" : "Find the skills"}
@@ -672,7 +675,7 @@ function renderResults() {
               ` : ""}
               <li class="insight-item">
                 <span class="insight-bullet" aria-hidden="true">★</span>
-                <div><strong>Best learning habit</strong><span>Pause and say what each number means before multiplying.</span></div>
+                <div><strong>Best learning habit</strong><span>Pause and say what each number means before choosing multiply or divide.</span></div>
               </li>
             </ul>
           </article>
@@ -768,7 +771,7 @@ function renderModal() {
       <div class="modal-backdrop" role="presentation">
         <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="clear-title">
           <h2 id="clear-title">Clear Charlotte's local progress?</h2>
-          <p>This removes saved session history and returns the learning set to the built-in multiplication mission on this browser.</p>
+          <p>This removes saved session history and returns the learning set to Charlotte's current concept mission.</p>
           <div class="modal-actions">
             <button class="soft-button button-small" type="button" data-action="close-modal">Cancel</button>
             <button class="danger-button button-small" type="button" data-action="confirm-clear-progress">Clear data</button>
@@ -815,7 +818,7 @@ async function handleClick(event) {
       saveLearningPack(state.pack);
       resetSelectedConcepts();
       state.screen = "review";
-      showToast("Charlotte's multiplication mission is ready.", "success");
+      showToast("Charlotte's multiply and divide mission is ready.", "success");
       render();
       break;
 
@@ -1023,7 +1026,7 @@ async function startSession(lengthValue) {
     currentInput: "",
     generating: false,
     fetchPromise: null,
-    lastSource: "fallback",
+    lastSource: "gemini",
     sourceWarnings: [],
     startedAt: new Date().toISOString(),
     completed: false,
@@ -1078,19 +1081,11 @@ async function fetchNextBatch() {
       if (result.warning) session.sourceWarnings.push(result.warning);
       return fresh;
     } catch (error) {
-      const fallback = generateFallbackQuestions({
-        pack: session.pack,
-        conceptIds: session.conceptIds,
-        count,
-        seed: `${session.id}:${startingIndex}:${Date.now()}`,
-        startingIndex,
-        avoidFingerprints,
-        difficulty: 2
-      });
-      session.questions.push(...fallback);
-      session.lastSource = "fallback";
-      session.sourceWarnings.push(error?.message || "Gemini generation fallback used.");
-      return fallback;
+      session.lastSource = "gemini-error";
+      session.sourceWarnings.push(
+        error?.message || "Gemini could not create practice questions."
+      );
+      return [];
     } finally {
       if (state.session === session) {
         session.generating = false;
